@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Expense Tracker Dashboard</title>
+  <link rel="manifest" href="/manifest.json">
+  <meta name="theme-color" content="#0f172a" />
+  <link rel="stylesheet" href="/styles.css" />
+  <script src="/vendor/chart.js/dist/chart.umd.js"></script>
+  <script src="/socket.io/socket.io.js"></script>
+</head>
+<body>
+  <div id="app" class="app">
+    <aside class="sidebar">
+      <div class="brand">💸 Raunak's Personal Expense Tracker</div>
+      <div class="controls">
+        <div class="control-group">
+          <label>Month</label>
+          <input id="monthPicker" type="month" />
+        </div>
+        <div class="control-group">
+          <label>Category</label>
+          <select id="categoryFilter">
+            <option value="">All</option>
+          </select>
+        </div>
+        <div class="buttons">
+          <button id="addExpenseBtn" class="btn primary">+ Add Expense</button>
+          <button id="exportBtn" class="btn">Export CSV</button>
+          <label class="btn file-btn">
+            Import CSV
+            <input id="importFile" type="file" accept=".csv" hidden />
+          </label>
+        </div>
+        <div class="divider"></div>
+        <div class="theme-toggle">
+          <span>Theme</span>
+          <button id="themeBtn" class="btn">Toggle Dark</button>
+        </div>
+      </div>
+    </aside>
+    <main class="main">
+      <section class="cards">
+        <div class="card highlight">
+          <div class="card-title">Total Spent</div>
+          <div id="totalSpent" class="card-value">₹0.00</div>
+        </div>
+        <div class="card">
+          <div class="card-title">Top Category</div>
+          <div id="topCategory" class="card-value small">—</div>
+        </div>
+        <div class="card">
+          <div class="card-title">Under/Over Budget</div>
+          <div id="budgetStatus" class="card-value small">—</div>
+        </div>
+      </section>
+
+      <section class="grid">
+        <div class="panel">
+          <div class="panel-header">
+            <h3>Category Breakdown</h3>
+          </div>
+          <canvas id="categoryChart" height="200"></canvas>
+        </div>
+
+        <div class="panel">
+          <div class="panel-header">
+            <h3>Monthly Trend</h3>
+          </div>
+          <canvas id="trendChart" height="200"></canvas>
+        </div>
+
+        <div class="panel full">
+          <div class="panel-header">
+            <h3>Budgets</h3>
+          </div>
+          <div id="budgets" class="budgets"></div>
+        </div>
+
+        <div class="panel full">
+          <div class="panel-header">
+            <h3>Expenses</h3>
+            <div class="panel-actions">
+              <input id="searchInput" class="input" placeholder="Search notes or method..." />
+            </div>
+          </div>
+          <div class="table-wrapper">
+            <table class="table" id="expenseTable">
+              <thead>
+                <tr>
+                  <th>Date</th>
+                  <th>Category</th>
+                  <th>Amount</th>
+                  <th>Method</th>
+                  <th>Notes</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <dialog id="expenseDialog" class="dialog">
+    <form method="dialog" id="expenseForm">
+      <h3 id="dialogTitle">Add Expense</h3>
+      <div class="form-row">
+        <label>Date</label>
+        <input type="date" name="date" required />
+      </div>
+      <div class="form-row">
+        <label>Amount</label>
+        <input type="number" name="amount" min="0" step="0.01" required />
+      </div>
+      <div class="form-row">
+        <label>Category</label>
+        <select name="category_id" required></select>
+      </div>
+      <div class="form-row">
+        <label>Method</label>
+        <input type="text" name="payment_method" placeholder="Card/Cash/etc" />
+      </div>
+      <div class="form-row">
+        <label>Notes</label>
+        <textarea name="notes" rows="3" placeholder="What did you spend on?"></textarea>
+      </div>
+      <div class="dialog-actions">
+        <button class="btn" type="button" id="dialogCancel">Cancel</button>
+        <button class="btn primary" value="confirm">Save</button>
+      </div>
+    </form>
+  </dialog>
+
+  <script src="/app.js" type="module"></script>
+</body>
+</html>
+
+
