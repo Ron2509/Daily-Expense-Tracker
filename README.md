@@ -1,2 +1,2 @@
 # Daily-Expense-Tracker
-![Image Alt](![Image Alt](image_url))
+![Image Alt](https://github.com/Ron2509/Daily-Expense-Tracker/blob/main/fs1.png?raw=true)
